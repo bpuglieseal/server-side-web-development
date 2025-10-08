@@ -7,8 +7,10 @@ require_once __DIR__ . "/controllers/GetAllDentistsController.php";
 require_once __DIR__ . "/controllers/GetStatusController.php";
 require_once __DIR__ . "/controllers/GetAllClientsController.php";
 require_once __DIR__ . "/controllers/CreateDentistController.php";
+require_once __DIR__ . "/controllers/CreateClientController.php";
 require_once __DIR__ . "/models/Clients.php";
 
+use App\Controllers\CreateClientController;
 use App\Controllers\GetAllClientsController;
 use App\Controllers\GetStatusController;
 use App\Database\MysqlClientFactory;
@@ -32,6 +34,7 @@ class Server
     private GetStatusController $get_status_controller;
     private GetAllClientsController $get_clients_controller;
     private CreateDentistController $create_dentist_controller;
+    private CreateClientController $create_client_controller;
 
     public function __construct()
     {
@@ -47,6 +50,7 @@ class Server
         $this->get_status_controller = new GetStatusController();
         $this->get_clients_controller = new GetAllClientsController($this->_client);
         $this->create_dentist_controller = new CreateDentistController($this->_dentist);
+        $this->create_client_controller = new CreateClientController($this->_client);
     }
 
     public function process_request()
@@ -68,8 +72,10 @@ class Server
         } else if ($uri === "/dentists" && $method === "POST") {
             http_response_code(201);
             $this->create_dentist_controller->exec();
-        }
-        else {
+        } else if ($uri === "/clients" && $method === "POST") {
+            http_response_code(201);
+            $this->create_client_controller->exec();
+        } else {
             header("Content-Type: text/plain");
             http_response_code(404);
             echo "Error on " . $uri;
