@@ -37,6 +37,27 @@ class Dentist {
         $stmt->bind_param("ssssi", $name, $surname, $dni, $date_of_birth, $dentist_on_vacation);
         return $stmt->execute();
     }
+
+    public function update (int $id, array $data) {
+        $fields = array_keys($data);
+        $fields = array_map(fn($key) => $key. " = ?", $fields);
+        $values = array_values($data);
+        $types = "";
+
+        foreach ($values as $value) {
+            if (is_int($value)) $types .= "i";
+            else $types .= "s";
+        }
+
+        $types .= "i";
+        array_push($values, $id);
+
+        $stmt = $this->_client->prepare("UPDATE dentists SET ". implode(", ", $fields). " WHERE dentist_id = ?");
+        $stmt->bind_param($types, ...$values);
+        $stmt->execute();
+
+        $stmt->close();
+    }
 }
 
 

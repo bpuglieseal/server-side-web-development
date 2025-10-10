@@ -8,12 +8,14 @@ require_once __DIR__ . "/controllers/GetStatusController.php";
 require_once __DIR__ . "/controllers/GetAllClientsController.php";
 require_once __DIR__ . "/controllers/CreateDentistController.php";
 require_once __DIR__ . "/controllers/CreateClientController.php";
+require_once __DIR__ . "/controllers/UpdateDentistControler.php";
 require_once __DIR__ . "/models/Clients.php";
 
 use App\Controllers\CreateClientController;
 use App\Controllers\GetAllClientsController;
 use App\Controllers\GetStatusController;
 use App\Database\MysqlClientFactory;
+use App\Database\UpdateDentistsController;
 use App\Models\Clients;
 use App\Models\Dentist;
 use App\Controllers\GetAllDentistsController;
@@ -35,6 +37,7 @@ class Server
     private GetAllClientsController $get_clients_controller;
     private CreateDentistController $create_dentist_controller;
     private CreateClientController $create_client_controller;
+    private UpdateDentistsController $update_dentist_controller;
 
     public function __construct()
     {
@@ -51,6 +54,7 @@ class Server
         $this->get_clients_controller = new GetAllClientsController($this->_client);
         $this->create_dentist_controller = new CreateDentistController($this->_dentist);
         $this->create_client_controller = new CreateClientController($this->_client);
+        $this->update_dentist_controller = new UpdateDentistsController($this->_dentist);
     }
 
     public function process_request()
@@ -75,6 +79,9 @@ class Server
         } else if ($uri === "/clients" && $method === "POST") {
             http_response_code(201);
             $this->create_client_controller->exec();
+        } else if (preg_match("#^/dentists/(\d+)$#", $uri, $matches) && $method === "PUT") {
+            http_response_code(201);
+            $this->update_dentist_controller->exec(intval($matches[1]));
         } else {
             header("Content-Type: text/plain");
             http_response_code(404);
