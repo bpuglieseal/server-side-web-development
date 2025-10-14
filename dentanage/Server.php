@@ -57,8 +57,15 @@ class Server
         $this->update_dentist_controller = new UpdateDentistsController($this->_dentist);
     }
 
+    private function config_cors ()  {
+        header("Access-Control-Allow-Credentials: true");
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: *");
+    }
+
     public function process_request()
     {
+        $this->config_cors();
         header("Content-Type: application/json");
 
         $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
