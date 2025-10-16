@@ -26,7 +26,7 @@ function Dentists() {
         </div>
       )}
       {!loading && data.length && (
-        <div className="w-2/4 mx-auto mt-10">
+        <div className="w-2/4 mx-auto mt-10 pb-6">
           <DentistsTable dentists={data} />
         </div>
       )}

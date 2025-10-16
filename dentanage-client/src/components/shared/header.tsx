@@ -10,8 +10,8 @@ export const Header: FC<object> = () => {
           <li>
             <Button
               size="lg"
-              variant="outline"
               asChild
+              variant="outline"
             >
               <NavLink to="/clients">Clients</NavLink>
             </Button>
