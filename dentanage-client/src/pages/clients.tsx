@@ -1,13 +1,13 @@
 // Hooks
-import {useDentist} from './hooks/useDentists'
+import {useClients} from '@/hooks/useClients'
 
 // Components
-import {DentistsTable} from './components/dentists/dentists-table'
-import {Spinner} from './components/ui/spinner'
-import {Item, ItemMedia, ItemContent, ItemTitle} from './components/ui/item'
+import {ClientsTable} from '../components/clients/clients-table'
+import {Spinner} from '../components/ui/spinner'
+import {Item, ItemMedia, ItemContent, ItemTitle} from '../components/ui/item'
 
-function App() {
-  const {data, loading} = useDentist()
+function Clients() {
+  const {data, loading} = useClients()
 
   return (
     <>
@@ -19,7 +19,7 @@ function App() {
             </ItemMedia>
             <ItemContent>
               <ItemTitle className="line-clamp-1">
-                Loading Avalaible Dentists...
+                Loading Avalaible Clients...
               </ItemTitle>
             </ItemContent>
           </Item>
@@ -27,11 +27,11 @@ function App() {
       )}
       {!loading && data.length && (
         <div className="w-2/4 mx-auto mt-10">
-          <DentistsTable dentists={data} />
+          <ClientsTable clients={data} />
         </div>
       )}
     </>
   )
 }
 
-export default App
+export default Clients
