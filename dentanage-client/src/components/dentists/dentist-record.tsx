@@ -4,6 +4,7 @@ import type {FC} from 'react'
 import {TableCell, TableRow} from '@/components/ui/table'
 import type {Dentist} from '@/interfaces/dentists'
 
+import {DentistEditDialog} from './dentist-edit-dialog'
 import {DentistDeleteDialog} from './dentist-delete-dialog'
 import {Button} from '../ui/button'
 import {CircleX, CircleCheckBig, Trash, Pencil} from 'lucide-react'
@@ -37,13 +38,15 @@ export const DentistRecord: FC<DentistRecordProps> = ({dentist}) => {
       </TableCell>
       <TableCell>
         <span className="flex justify-end gap-2">
-          <Button
-            variant="outline"
-            className="cursor-pointer"
-            size="icon"
-          >
-            <Pencil size={24} />
-          </Button>
+          <DentistEditDialog dentist={dentist}>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              size="icon"
+            >
+              <Pencil size={24} />
+            </Button>
+          </DentistEditDialog>
           <DentistDeleteDialog dentist={dentist}>
             <Button
               variant="outline"
