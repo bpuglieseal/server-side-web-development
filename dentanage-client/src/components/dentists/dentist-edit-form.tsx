@@ -21,7 +21,7 @@ const editDentistFormSchema = yup.object({
   name: yup.string().required('The name is required'),
   surname: yup.string().required('The name is required'),
   avalaible: yup.boolean().required(),
-  birthdate: yup.string().required('The birt hdate is required')
+  birthDate: yup.string().required('The birt hdate is required')
 })
 
 export type EditDentistFormDataType = yup.InferType<
@@ -30,10 +30,12 @@ export type EditDentistFormDataType = yup.InferType<
 
 interface DentistEditFormProps {
   dentist: Dentist
+  onSubmit: (_data: EditDentistFormDataType) => void | Promise<void>
 }
 
 export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
-  dentist
+  dentist,
+  onSubmit
 }) => {
   const {
     register,
@@ -45,7 +47,7 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
       name: dentist.name,
       surname: dentist.surname,
       dni: dentist.dni,
-      birthdate: dentist.birthDate,
+      birthDate: dentist.birthDate,
       avalaible: true
     }
   })
@@ -53,9 +55,7 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
   return (
     <div className="w-full">
       <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data)
-        })}
+        onSubmit={handleSubmit(onSubmit)}
         className="mt-3"
       >
         <FieldGroup>
@@ -96,13 +96,13 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
               <Field>
                 <FieldLabel>Birthdate</FieldLabel>
                 <Input
-                  aria-invalid={!!errors?.birthdate?.message}
+                  aria-invalid={!!errors?.birthDate?.message}
                   type="date"
                   placeholder="Rabbit"
-                  {...register('birthdate')}
+                  {...register('birthDate')}
                 />
-                {!!errors?.birthdate?.message && (
-                  <FieldError>{errors.birthdate.message}</FieldError>
+                {!!errors?.birthDate?.message && (
+                  <FieldError>{errors.birthDate.message}</FieldError>
                 )}
               </Field>
             </FieldGroup>

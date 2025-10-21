@@ -1,5 +1,6 @@
 // Hooks
-import {useDentist} from '../hooks/useDentists'
+import {useEffect} from 'react'
+import {useDentistStore} from '@/store/dentists.store'
 
 // Components
 import {DentistsTable} from '../components/dentists/dentists-table'
@@ -7,7 +8,11 @@ import {Spinner} from '../components/ui/spinner'
 import {Item, ItemMedia, ItemContent, ItemTitle} from '../components/ui/item'
 
 function Dentists() {
-  const {data, loading} = useDentist()
+  const {get, dentists, loading} = useDentistStore()
+
+  useEffect(() => {
+    get()
+  }, [get])
 
   return (
     <>
@@ -25,9 +30,9 @@ function Dentists() {
           </Item>
         </div>
       )}
-      {!loading && data.length && (
+      {!loading && dentists.length && (
         <div className="w-2/4 mx-auto mt-10 pb-6">
-          <DentistsTable dentists={data} />
+          <DentistsTable dentists={dentists} />
         </div>
       )}
     </>
