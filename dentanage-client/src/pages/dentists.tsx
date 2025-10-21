@@ -6,6 +6,9 @@ import {useDentistStore} from '@/store/dentists.store'
 import {DentistsTable} from '../components/dentists/dentists-table'
 import {Spinner} from '../components/ui/spinner'
 import {Item, ItemMedia, ItemContent, ItemTitle} from '../components/ui/item'
+import {DentistCreateDialog} from '@/components/dentists/dentist-create-dialog'
+import {Button} from '../components/ui/button'
+import {Plus} from 'lucide-react'
 
 function Dentists() {
   const {get, dentists, loading} = useDentistStore()
@@ -15,7 +18,14 @@ function Dentists() {
   }, [get])
 
   return (
-    <>
+    <div className="w-2/4 mx-auto mt-10 pb-6">
+      <div className="flex justify-end mb-3">
+        <DentistCreateDialog>
+          <Button variant="outline">
+            <Plus />
+          </Button>
+        </DentistCreateDialog>
+      </div>
       {loading && (
         <div className="flex w-full max-w-xs flex-col gap-4 [--radius:1rem] mx-auto mt-10">
           <Item variant="outline">
@@ -30,12 +40,8 @@ function Dentists() {
           </Item>
         </div>
       )}
-      {!loading && dentists.length && (
-        <div className="w-2/4 mx-auto mt-10 pb-6">
-          <DentistsTable dentists={dentists} />
-        </div>
-      )}
-    </>
+      {!loading && dentists.length && <DentistsTable dentists={dentists} />}
+    </div>
   )
 }
 

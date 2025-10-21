@@ -8,17 +8,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
-import type {Dentist} from '@/interfaces/dentists'
-import {DentistForm, type DentistFormDataType} from './dentist-form'
 import {useDentistStore} from '@/store/dentists.store'
+import {DentistForm} from './dentist-form'
 
-interface DentistEditDialogProps {
-  dentist: Dentist
-}
-
-export const DentistEditDialog: FC<
-  PropsWithChildren<DentistEditDialogProps>
-> = ({children, dentist}) => {
+export const DentistCreateDialog: FC<PropsWithChildren<object>> = ({
+  children
+}) => {
   const {update} = useDentistStore()
   const [open, setOpen] = useState<boolean>(false)
 
@@ -30,19 +25,18 @@ export const DentistEditDialog: FC<
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px] lg:min-w-3/12">
         <DialogHeader>
-          <DialogTitle>Edit Dentist</DialogTitle>
+          <DialogTitle>Create Dentist</DialogTitle>
           <DialogDescription>
             <DentistForm
-              dentist={dentist}
-              onSubmit={async (_data: DentistFormDataType) => {
-                const data: Partial<Dentist> = {
+              onClose={() => setOpen(false)}
+              onSubmit={async (_data) => {
+                const data = {
                   ..._data,
                   onVacations: _data.onVacations ? '0' : '1'
                 }
-                await update(dentist.id, data)
+                console.log(data)
                 setOpen(false)
               }}
-              onClose={() => setOpen(false)}
             />
           </DialogDescription>
         </DialogHeader>

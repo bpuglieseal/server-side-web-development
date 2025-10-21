@@ -17,7 +17,7 @@ import {Input} from '../ui/input'
 import {Checkbox} from '../ui/checkbox'
 import type {Dentist} from '@/interfaces/dentists'
 
-const editDentistFormSchema = yup.object({
+const dentistFormSchema = yup.object({
   dni: yup.string().required(''),
   name: yup.string().required('The name is required'),
   surname: yup.string().required('The name is required'),
@@ -25,18 +25,18 @@ const editDentistFormSchema = yup.object({
   birthDate: yup.string().required('The birt hdate is required')
 })
 
-export type EditDentistFormDataType = yup.InferType<
-  typeof editDentistFormSchema
->
+export type DentistFormDataType = yup.InferType<typeof dentistFormSchema>
 
 interface DentistEditFormProps {
-  dentist: Dentist
-  onSubmit: (_data: EditDentistFormDataType) => void | Promise<void>
+  dentist?: Dentist
+  onSubmit: (_data: DentistFormDataType) => void | Promise<void>
+  onClose: () => void
 }
 
-export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
+export const DentistForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
   dentist,
-  onSubmit
+  onSubmit,
+  onClose
 }) => {
   const {
     register,
@@ -44,13 +44,15 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
     formState: {errors},
     control
   } = useForm({
-    resolver: yupResolver(editDentistFormSchema),
+    resolver: yupResolver(dentistFormSchema),
     defaultValues: {
-      name: dentist.name,
-      surname: dentist.surname,
-      dni: dentist.dni,
-      birthDate: dentist.birthDate,
-      onVacations: parseInt(dentist.onVacations) === 0
+      name: dentist?.name,
+      surname: dentist?.surname,
+      dni: dentist?.dni,
+      birthDate: dentist?.birthDate,
+      onVacations: dentist?.onVacations
+        ? parseInt(dentist.onVacations) === 0
+        : false
     }
   })
 
@@ -142,6 +144,7 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
             <Button
               variant="outline"
               type="button"
+              onClick={() => onClose()}
             >
               Cancel
             </Button>
