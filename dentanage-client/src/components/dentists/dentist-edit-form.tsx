@@ -1,5 +1,5 @@
 import {type FC, type PropsWithChildren} from 'react'
-import {useForm} from 'react-hook-form'
+import {useForm, Controller} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
@@ -14,13 +14,14 @@ import {
 } from '@/components/ui/field'
 import {Button} from '@/components/ui/button'
 import {Input} from '../ui/input'
+import {Checkbox} from '../ui/checkbox'
 import type {Dentist} from '@/interfaces/dentists'
 
 const editDentistFormSchema = yup.object({
   dni: yup.string().required(''),
   name: yup.string().required('The name is required'),
   surname: yup.string().required('The name is required'),
-  avalaible: yup.boolean().required(),
+  onVacations: yup.boolean(),
   birthDate: yup.string().required('The birt hdate is required')
 })
 
@@ -40,7 +41,8 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
   const {
     register,
     handleSubmit,
-    formState: {errors}
+    formState: {errors},
+    control
   } = useForm({
     resolver: yupResolver(editDentistFormSchema),
     defaultValues: {
@@ -48,14 +50,14 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
       surname: dentist.surname,
       dni: dentist.dni,
       birthDate: dentist.birthDate,
-      avalaible: true
+      onVacations: parseInt(dentist.onVacations) === 0
     }
   })
 
   return (
     <div className="w-full">
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data) => onSubmit(data))}
         className="mt-3"
       >
         <FieldGroup>
@@ -104,6 +106,30 @@ export const DentistEditForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
                 {!!errors?.birthDate?.message && (
                   <FieldError>{errors.birthDate.message}</FieldError>
                 )}
+              </Field>
+              <Field className="mt-2">
+                <Controller
+                  control={control}
+                  name="onVacations"
+                  render={({field}) => (
+                    <FieldLabel className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=false]]:text-yellow-800 has-[[aria-checked=true]]:border-green-600 has-[[aria-checked=true]]:bg-green-50 dark:has-[[aria-checked=true]]:border-green-900 dark:has-[[aria-checked=true]]:bg-green-950 has-[[aria-checked=false]]:border-yellow-600 has-[[aria-checked=false]]:bg-yellow-50 dark:has-[[aria-checked=false]]:border-yellow-900 dark:has-[[aria-checked=false]]:bg-yellow-950">
+                      <Checkbox
+                        className="data-[state=checked]:border-green-600 data-[state=checked]:bg-green-600 data-[state=checked]:text-white dark:data-[state=checked]:border-green-700 dark:data-[state=checked]:bg-green-700"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <div className="grid gap-1.5 font-normal">
+                        <p className="text-sm leading-none font-medium">
+                          Avalaible
+                        </p>
+                        <p className="text-muted-foreground text-sm">
+                          Check if the dentist is available (leave unchecked if
+                          on vacation)
+                        </p>
+                      </div>
+                    </FieldLabel>
+                  )}
+                />
               </Field>
             </FieldGroup>
           </FieldSet>

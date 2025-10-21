@@ -38,7 +38,11 @@ export const DentistEditDialog: FC<
             <DentistEditForm
               dentist={dentist}
               onSubmit={async (_data: EditDentistFormDataType) => {
-                await update(dentist.id, _data)
+                const data: Partial<Dentist> = {
+                  ..._data,
+                  onVacations: _data.onVacations ? '0' : '1'
+                }
+                await update(dentist.id, data)
                 setOpen(false)
               }}
             />
