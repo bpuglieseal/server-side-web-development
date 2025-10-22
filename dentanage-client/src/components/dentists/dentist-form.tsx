@@ -31,12 +31,14 @@ interface DentistEditFormProps {
   dentist?: Dentist
   onSubmit: (_data: DentistFormDataType) => void | Promise<void>
   onClose: () => void
+  createMode?: boolean
 }
 
 export const DentistForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
   dentist,
   onSubmit,
-  onClose
+  onClose,
+  createMode = false
 }) => {
   const {
     register,
@@ -69,8 +71,8 @@ export const DentistForm: FC<PropsWithChildren<DentistEditFormProps>> = ({
                 <FieldLabel htmlFor="name">DNI</FieldLabel>
                 <Input
                   id="name"
-                  placeholder="Evil"
-                  disabled
+                  placeholder="12345678A"
+                  disabled={!createMode}
                   {...register('dni')}
                 />
               </Field>

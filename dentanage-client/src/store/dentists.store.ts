@@ -2,6 +2,7 @@ import {create} from 'zustand'
 import {type Dentist} from '../interfaces/dentists'
 import {getDentists} from '@/services/getDentists'
 import {updateDentist} from '@/services/updateDentist'
+import {createDentist, type CreateDentistBody} from '@/services/createDentist'
 
 type DentistsState = {
   // get state
@@ -10,11 +11,15 @@ type DentistsState = {
 
   // update state
   updating: boolean
+
+  // create state
+  creating: boolean
 }
 
 type DentistsActions = {
   get: () => Promise<void>
   update: (id: string, data: Partial<Dentist>) => Promise<void>
+  create: (data: CreateDentistBody) => Promise<void>
 }
 
 export const useDentistStore = create<DentistsState & DentistsActions>(
@@ -24,6 +29,8 @@ export const useDentistStore = create<DentistsState & DentistsActions>(
 
     // updating state
     updating: false,
+    // creating state
+    creating: false,
 
     // Actions
     get: async () => {
@@ -46,6 +53,16 @@ export const useDentistStore = create<DentistsState & DentistsActions>(
             dentist.id === id ? {...dentist, ...data} : dentist
           )
         }))
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    create: async (data: CreateDentistBody) => {
+      set({creating: true})
+      try {
+        await createDentist(data)
+        set({creating: false})
       } catch (error) {
         console.log(error)
       }

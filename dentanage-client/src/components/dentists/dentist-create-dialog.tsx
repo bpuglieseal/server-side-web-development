@@ -10,11 +10,12 @@ import {
 } from '@/components/ui/dialog'
 import {useDentistStore} from '@/store/dentists.store'
 import {DentistForm} from './dentist-form'
+import type {CreateDentistBody} from '@/services/createDentist'
 
 export const DentistCreateDialog: FC<PropsWithChildren<object>> = ({
   children
 }) => {
-  const {update} = useDentistStore()
+  const {create, get} = useDentistStore()
   const [open, setOpen] = useState<boolean>(false)
 
   return (
@@ -28,13 +29,19 @@ export const DentistCreateDialog: FC<PropsWithChildren<object>> = ({
           <DialogTitle>Create Dentist</DialogTitle>
           <DialogDescription>
             <DentistForm
+              createMode
               onClose={() => setOpen(false)}
               onSubmit={async (_data) => {
-                const data = {
-                  ..._data,
-                  onVacations: _data.onVacations ? '0' : '1'
+                const body: CreateDentistBody = {
+                  dni: _data.dni,
+                  name: _data.name,
+                  surname: _data.surname,
+                  onVacation: _data.onVacations ? 0 : 1,
+                  birthdate: _data.birthDate
                 }
-                console.log(data)
+                await create(body)
+                await get()
+
                 setOpen(false)
               }}
             />
