@@ -8,7 +8,7 @@ require_once __DIR__ . "/controllers/GetStatusController.php";
 require_once __DIR__ . "/controllers/GetAllClientsController.php";
 require_once __DIR__ . "/controllers/CreateDentistController.php";
 require_once __DIR__ . "/controllers/CreateClientController.php";
-require_once __DIR__ . "/controllers/UpdateDentistControler.php";
+require_once __DIR__ . "/controllers/UpdateDentistController.php";
 require_once __DIR__ . "/models/Clients.php";
 
 use App\Controllers\CreateClientController;
