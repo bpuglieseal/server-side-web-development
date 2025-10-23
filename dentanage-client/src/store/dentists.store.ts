@@ -3,6 +3,7 @@ import {type Dentist} from '../interfaces/dentists'
 import {getDentists} from '@/services/getDentists'
 import {updateDentist} from '@/services/updateDentist'
 import {createDentist, type CreateDentistBody} from '@/services/createDentist'
+import {deleteDentist} from '@/services/deleteDentist'
 
 type DentistsState = {
   // get state
@@ -14,12 +15,16 @@ type DentistsState = {
 
   // create state
   creating: boolean
+
+  // delete state
+  deleting: boolean
 }
 
 type DentistsActions = {
   get: () => Promise<void>
   update: (id: string, data: Partial<Dentist>) => Promise<void>
   create: (data: CreateDentistBody) => Promise<void>
+  delete: (id: string | number) => Promise<void>
 }
 
 export const useDentistStore = create<DentistsState & DentistsActions>(
@@ -31,6 +36,8 @@ export const useDentistStore = create<DentistsState & DentistsActions>(
     updating: false,
     // creating state
     creating: false,
+    // deleting state
+    deleting: false,
 
     // Actions
     get: async () => {
@@ -52,6 +59,19 @@ export const useDentistStore = create<DentistsState & DentistsActions>(
           dentists: dentists.map((dentist) =>
             dentist.id === id ? {...dentist, ...data} : dentist
           )
+        }))
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    delete: async (id: string | number) => {
+      set({deleting: true})
+      try {
+        await deleteDentist(id)
+        set(({dentists}) => ({
+          updating: false,
+          dentists: dentists.filter((dentist) => dentist.id !== id)
         }))
       } catch (error) {
         console.log(error)

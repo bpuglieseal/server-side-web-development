@@ -14,6 +14,12 @@ class Dentist {
         return $dentists;
     }
 
+    public function delete (int $id): bool {
+        $stmt = $this->_client->prepare("DELETE FROM dentists WHERE dentist_id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
     public function find_by_dni (string $dni): bool|array {
         $stmt = $this->_client->prepare("SELECT * FROM dentists WHERE dentists.dentist_dni = ?");
         $stmt->bind_param("s", $dni);
