@@ -10,6 +10,7 @@ require_once __DIR__ . "/controllers/CreateDentistController.php";
 require_once __DIR__ . "/controllers/CreateClientController.php";
 require_once __DIR__ . "/controllers/UpdateDentistController.php";
 require_once __DIR__ . "/controllers/DeleteDentistController.php";
+require_once __DIR__ . "/controllers/LoginController.php";
 require_once __DIR__ . "/models/Clients.php";
 
 use App\Controllers\CreateClientController;
@@ -22,6 +23,7 @@ use App\Models\Dentist;
 use App\Controllers\GetAllDentistsController;
 use App\Controllers\CreateDentistController;
 use App\Controllers\DeleteDentistController;
+use App\Controllers\LoginController;
 
 class Server
 {
@@ -68,13 +70,29 @@ class Server
         header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
     }
 
+    public function auth_middleware()
+    {
+        if (!isset($_SESSION["user"]) && !isset($_SESSION["logged_in"])) {
+            http_response_code(401);
+            echo json_encode([
+                "message" => "Unauthorized"
+            ]);
+            exit();
+        }
+    }
+
     public function process_request()
     {
+        session_start();
         $this->config_cors();
         header("Content-Type: application/json");
 
         $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
         $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($uri !== "/login") {
+            $this->auth_middleware();
+        }
 
         if ($method === "OPTIONS") {
             http_response_code(204);
@@ -100,6 +118,9 @@ class Server
         } else if (preg_match("#^/dentists/(\d+)$#", $uri, $matches) && $method === "DELETE") {
             http_response_code(200);
             $this->delete_dentist_controller->exec(intval($matches[1]));
+        } else if ($uri === "/login" && $method === "POST") {
+            $login_controller = new \App\Controllers\LoginController();
+            $login_controller->exec();
         } else {
             header("Content-Type: text/plain");
             http_response_code(404);
