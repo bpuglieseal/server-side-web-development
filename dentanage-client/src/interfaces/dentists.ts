@@ -1,4 +1,4 @@
-export interface Dentists {
+export interface Dentist {
   id: string
   name: string
   surname: string

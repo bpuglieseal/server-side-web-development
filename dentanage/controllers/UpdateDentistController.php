@@ -1,5 +1,5 @@
 <?php
-namespace App\Database;
+namespace App\Controllers;
 
 use App\Models\Dentist;
 

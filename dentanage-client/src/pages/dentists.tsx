@@ -1,16 +1,31 @@
 // Hooks
-import {useDentist} from '../hooks/useDentists'
+import {useEffect} from 'react'
+import {useDentistStore} from '@/store/dentists.store'
 
 // Components
 import {DentistsTable} from '../components/dentists/dentists-table'
 import {Spinner} from '../components/ui/spinner'
 import {Item, ItemMedia, ItemContent, ItemTitle} from '../components/ui/item'
+import {DentistCreateDialog} from '@/components/dentists/dentist-create-dialog'
+import {Button} from '../components/ui/button'
+import {Plus} from 'lucide-react'
 
 function Dentists() {
-  const {data, loading} = useDentist()
+  const {get, dentists, loading} = useDentistStore()
+
+  useEffect(() => {
+    get()
+  }, [get])
 
   return (
-    <>
+    <div className="w-2/4 mx-auto mt-10 pb-6">
+      <div className="flex justify-end mb-3">
+        <DentistCreateDialog>
+          <Button variant="outline">
+            <Plus />
+          </Button>
+        </DentistCreateDialog>
+      </div>
       {loading && (
         <div className="flex w-full max-w-xs flex-col gap-4 [--radius:1rem] mx-auto mt-10">
           <Item variant="outline">
@@ -25,12 +40,8 @@ function Dentists() {
           </Item>
         </div>
       )}
-      {!loading && data.length && (
-        <div className="w-2/4 mx-auto mt-10">
-          <DentistsTable dentists={data} />
-        </div>
-      )}
-    </>
+      {!loading && dentists.length && <DentistsTable dentists={dentists} />}
+    </div>
   )
 }
 

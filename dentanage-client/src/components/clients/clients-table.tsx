@@ -36,7 +36,7 @@ export const ClientsTable: FC<ClientsTableProps> = ({clients}) => {
       </TableHeader>
       <TableBody>
         {clients.map((client) => (
-          <TableRow>
+          <TableRow key={client.id}>
             <TableCell>{client.id}</TableCell>
             <TableCell>{client.dni}</TableCell>
             <TableCell>{client.name}</TableCell>

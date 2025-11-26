@@ -8,18 +8,20 @@ require_once __DIR__ . "/controllers/GetStatusController.php";
 require_once __DIR__ . "/controllers/GetAllClientsController.php";
 require_once __DIR__ . "/controllers/CreateDentistController.php";
 require_once __DIR__ . "/controllers/CreateClientController.php";
-require_once __DIR__ . "/controllers/UpdateDentistControler.php";
+require_once __DIR__ . "/controllers/UpdateDentistController.php";
+require_once __DIR__ . "/controllers/DeleteDentistController.php";
 require_once __DIR__ . "/models/Clients.php";
 
 use App\Controllers\CreateClientController;
 use App\Controllers\GetAllClientsController;
 use App\Controllers\GetStatusController;
 use App\Database\MysqlClientFactory;
-use App\Database\UpdateDentistsController;
+use App\Controllers\UpdateDentistsController;
 use App\Models\Clients;
 use App\Models\Dentist;
 use App\Controllers\GetAllDentistsController;
 use App\Controllers\CreateDentistController;
+use App\Controllers\DeleteDentistController;
 
 class Server
 {
@@ -38,6 +40,7 @@ class Server
     private CreateDentistController $create_dentist_controller;
     private CreateClientController $create_client_controller;
     private UpdateDentistsController $update_dentist_controller;
+    private DeleteDentistController $delete_dentist_controller;
 
     public function __construct()
     {
@@ -55,12 +58,14 @@ class Server
         $this->create_dentist_controller = new CreateDentistController($this->_dentist);
         $this->create_client_controller = new CreateClientController($this->_client);
         $this->update_dentist_controller = new UpdateDentistsController($this->_dentist);
+        $this->delete_dentist_controller = new DeleteDentistController($this->_dentist);
     }
 
     private function config_cors ()  {
         header("Access-Control-Allow-Credentials: true");
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
     }
 
     public function process_request()
@@ -71,7 +76,10 @@ class Server
         $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
         $method = $_SERVER["REQUEST_METHOD"];
 
-        if ($uri === "/status" && $method === "GET") {
+        if ($method === "OPTIONS") {
+            http_response_code(204);
+            exit();
+        } else if ($uri === "/status" && $method === "GET") {
             http_response_code(200);
             $this->get_status_controller->exec();
         } else if ($uri === "/dentists" && $method === "GET") {
@@ -89,6 +97,9 @@ class Server
         } else if (preg_match("#^/dentists/(\d+)$#", $uri, $matches) && $method === "PUT") {
             http_response_code(201);
             $this->update_dentist_controller->exec(intval($matches[1]));
+        } else if (preg_match("#^/dentists/(\d+)$#", $uri, $matches) && $method === "DELETE") {
+            http_response_code(200);
+            $this->delete_dentist_controller->exec(intval($matches[1]));
         } else {
             header("Content-Type: text/plain");
             http_response_code(404);
