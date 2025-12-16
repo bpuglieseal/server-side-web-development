@@ -10,7 +10,7 @@
 
 <body>
     <div class="fixed bottom-0 left-0 z-50 w-full h-16 bg-neutral-primary-soft border-t border-default">
-        <div class="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+        <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <a href="{{ url('/') }}"
                 class="inline-flex flex-col items-center justify-center px-5 hover:bg-neutral-secondary-medium group">
                 <svg class="w-6 h-6 mb-1 text-body group-hover:text-fg-brand" aria-hidden="true"
@@ -38,6 +38,14 @@
                         d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                 </svg>
                 <span class="text-sm text-body group-hover:text-fg-brand">Find</span>
+            </a>
+
+            <a href="{{ url('/advanced') }}"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-neutral-secondary-medium group">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667" />
+                </svg>
+                <span class="text-sm text-body group-hover:text-fg-brand">Advanced</span>
             </a>
         </div>
     </div>
