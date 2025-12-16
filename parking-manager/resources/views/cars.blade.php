@@ -3,6 +3,11 @@
 @section('content')
 
 <form action="{{ url('/') }}" method="post" class="mx-auto max-w-md space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-6">
+    @if (session('success'))
+    <div class="p-4 mb-4 text-sm text-fg-success-strong rounded-base bg-success-soft" role="alert">
+        <span class="font-medium">Success alert!</span> {{ session('success') }}
+    </div>
+    @endif
     <ul class="list-none space-y-6 my-4">
         @error("model")
         <li class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
