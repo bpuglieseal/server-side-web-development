@@ -9,8 +9,6 @@
 </head>
 
 <body>
-
-
     <div class="fixed bottom-0 left-0 z-50 w-full h-16 bg-neutral-primary-soft border-t border-default">
         <div class="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
             <a href="{{ url('/') }}"
@@ -43,7 +41,7 @@
             </a>
         </div>
     </div>
-    <main class="container mx-auto py-12">
+    <main class="container mx-auto pt-12 pb-24">
         @yield('content')
     </main>
 </body>

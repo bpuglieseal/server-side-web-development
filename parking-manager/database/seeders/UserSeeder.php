@@ -12,6 +12,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory()->count(count: 5)->create();
+        \App\Models\User::factory()->count(count: 3)->create()->each(function ($user) {
+            \App\Models\Car::factory()->count(count: 4)->create([
+                'user_id' => $user->id,
+            ]);
+        });
     }
 }

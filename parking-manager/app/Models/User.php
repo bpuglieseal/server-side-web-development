@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,4 +28,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     public $timestamps = false;
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
 }
