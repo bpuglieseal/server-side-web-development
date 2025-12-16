@@ -6,7 +6,7 @@ class GetAllCarsController extends Controller
 {
     public function __invoke()
     {
-        $cars = \App\Models\Car::all();
+        $cars = \App\Models\Car::with('user')->get();
         return view('cars', ['cars' => $cars]);
     }
 }

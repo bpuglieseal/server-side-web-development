@@ -1,6 +1,6 @@
 <tr class="bg-neutral-primary border-b border-default">
-    <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-        {{ $car->id }}
+    <th scope="row" class="px-6 py-4 font-bold text-heading whitespace-nowrap">
+        {{ $car->user->name }}
     </th>
     <td class="px-6 py-4">
         {{ $car->plate }}
