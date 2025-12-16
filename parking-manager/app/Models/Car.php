@@ -10,7 +10,6 @@ class Car extends Model
 {
     /** @use HasFactory<\Database\Factories\CarFactory> */
     use HasFactory;
-    use HasUuids;
 
     protected $fillable = ["plate", "brand", "model"];
     public $timestamps = false;
