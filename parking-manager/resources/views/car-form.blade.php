@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Cars')
+@section('title', 'Baldassare Pugliese - Create Car')
 @section('content')
 
     <form action="{{ url('/') }}" method="post"
