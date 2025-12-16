@@ -10,62 +10,72 @@
     @endif
     <ul class="list-none space-y-6 my-4">
         @error("model")
-        <li class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ $message }}</span>
+        <li class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+            <span class="font-medium">Form Error!</span> {{ $message }}
         </li>
         @enderror
         @error("brand")
-        <li class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ $message }}</span>
+        <li class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+            <span class="font-medium">Form Error!</span> {{ $message }}
         </li>
         @enderror
         @error("plate")
-        <li class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ $message }}</span>
+        <li class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
+            <span class="font-medium">Form Error!</span> {{ $message }}
         </li>
         @enderror
     </ul>
     @csrf
-    <div>
-        <label class="block text-sm font-medium text-gray-900" for="plate">Plate</label>
-        <input name="plate" class="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none" id="plate" type="text" placeholder="Your plate">
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" name="plate" id="plate" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+        <label for="plate" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Plate</label>
     </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-900" for="brand">Brand</label>
-        <input name="brand" class="mt-1 w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none" id="brand" type="text" placeholder="Your brand">
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" name="brand" id="brand" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+        <label for="brand" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Brand</label>
     </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-900" for="model">Model</label>
-        <textarea name="model" class="mt-1 w-full resize-none rounded-lg border-gray-300 focus:border-indigo-500 focus:outline-none" id="model" rows="4" placeholder="Your model"></textarea>
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" name="model" id="model" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+        <label for="model" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Model</label>
     </div>
-
-    <button class="block w-full rounded-lg border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-indigo-600" type="submit">
-        Send Message
-    </button>
+    <button type="submit" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none w-full">Submit</button>
 </form>
 <div class="overflow-x-auto mt-6">
-    <table class="min-w-full divide-y-2 divide-gray-200">
-        <thead class="ltr:text-left rtl:text-right">
-            <tr class="*:font-medium *:text-gray-900">
-                <th class="px-3 py-2 whitespace-nowrap font-extrabold">Plate</th>
-                <th class="px-3 py-2 whitespace-nowrap font-extrabold">Brand</th>
-                <th class="px-3 py-2 whitespace-nowrap font-extrabold">Model</th>
-            </tr>
-        </thead>
+    <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+        <table class="w-full text-sm text-left rtl:text-right text-body">
+            <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Plate
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Brand
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Model
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (isset($cars))
+                @foreach ($cars as $car)
+                <tr class="bg-neutral-primary border-b border-default">
+                    <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                        {{ $car->plate }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ $car->brand }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $car->model }}
+                    </td>
+                </tr>
+                @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
 
-        <tbody class="divide-y divide-gray-200">
-            @if (isset($cars))
-            @foreach ($cars as $car)
-            <tr class="*:text-gray-900 *:first:font-medium">
-                <td class="px-3 py-2 whitespace-nowrap">{{ $car->plate }}</td>
-                <td class="px-3 py-2 whitespace-nowrap">{{ $car->brand }}</td>
-                <td class="px-3 py-2 whitespace-nowrap">{{ $car->model }}</td>
-            </tr>
-            @endforeach
-            @endif
-        </tbody>
-    </table>
+
 </div>
 @endsection
