@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Validator;
 
 class PostCarController extends Controller
 {
+    public function form()
+    {
+        return view('car-form');
+    }
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -16,7 +20,7 @@ class PostCarController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect("/create")
                 ->withErrors($validator)
                 ->withInput();
         }
