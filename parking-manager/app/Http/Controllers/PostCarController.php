@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\FormCarRequest;
 
 class PostCarController extends Controller
 {
@@ -11,28 +10,16 @@ class PostCarController extends Controller
     {
         return view('car-form');
     }
-    public function __invoke(Request $request)
+    public function __invoke(FormCarRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'plate' => 'required|string|max:10',
-            'brand' => 'required|string|max:50',
-            'model' => 'required|string|max:50',
-        ]);
+        $validated = $request->validated();
+        $user = new \App\Models\User();
+        $user->setAttribute('name', $request->input('name'));
+        $user->setAttribute('lastname', $request->input('lastname'));
+        $user->setAttribute('email', $request->input('email'));
+        $user->save();
 
-        if ($validator->fails()) {
-            return redirect("/create")
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $validated = $validator->validated();
-
-        $car = new \App\Models\Car();
-        $car->setAttribute('plate', $validated['plate']);
-        $car->setAttribute('brand', $validated['brand']);
-        $car->setAttribute('model', $validated['model']);
-        $car->save();
-
+        $user->cars()->create(['plate' => $validated['plate'], 'brand' => $validated['brand'], 'model' => $validated['model']]);
         return redirect("/")->with('success', 'Car created successfully!');
     }
 }

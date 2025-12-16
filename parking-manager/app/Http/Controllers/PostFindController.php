@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PostFindController extends Controller
 {
@@ -13,7 +14,7 @@ class PostFindController extends Controller
 
     public function __invoke(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'query' => 'required|string|max:10',
         ]);
 
