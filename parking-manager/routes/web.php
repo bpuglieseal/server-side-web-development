@@ -10,3 +10,4 @@ Route::delete('/{car}', App\Http\Controllers\DeleteCarController::class)->name('
 Route::get('/find', App\Http\Controllers\PostFindController::class . '@form')->name('cars.find.form');
 Route::post('/find', App\Http\Controllers\PostFindController::class)->name('cars.find.submit');
 Route::get('/advanced', App\Http\Controllers\AdvancedCarController::class . '@form')->name('cars.advanced.form');
+Route::post('/advanced', App\Http\Controllers\AdvancedCarController::class)->name('cars.advanced.submit');

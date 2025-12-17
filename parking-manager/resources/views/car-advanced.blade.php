@@ -2,9 +2,18 @@
 @section('title', 'Baldassare Pugliese - Find Car')
 @section('content')
 
-<form action="{{ url('/find') }}" method="post"
+<form action="{{ url('/advanced') }}" method="post"
     class="mx-auto max-w-md space-y-4 rounded-lg border border-gray-300 bg-gray-100 p-6">
     <ul class="list-none space-y-6 my-4">
+        @if (session('status') == 'ok')
+        <div class="p-4 mb-4 text-sm text-fg-success-strong rounded-base bg-success-soft" role="alert">
+            <span class="font-bold">Success!</span> {{ session('message') }}
+        </div>
+        @elseif (session('status') == 'warning')
+        <div class="p-4 mb-4 text-sm text-fg-warning rounded-base bg-warning-soft" role="alert">
+            <span class="font-bold">Warning!</span> {{ session('message') }}
+        </div>
+        @endif
         @error("date")
         <li class="p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft" role="alert">
             <span class="font-bold">Form Error!</span> {{ $message }}
@@ -56,8 +65,8 @@
                 </tr>
             </thead>
             <tbody>
-                @if (isset($cars))
-                @foreach ($cars as $car)
+                @if (session()->has('cars'))
+                @foreach (session('cars') as $car)
                 <x-car-row :car="$car" />
                 @endforeach
                 @endif
